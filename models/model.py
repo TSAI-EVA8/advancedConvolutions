@@ -1,7 +1,5 @@
 import torch.nn as nn
-import config as cf
 import torch.nn.functional as F
-import config as cf
 
 class Net(nn.Module):
 

@@ -1,6 +1,8 @@
 
-import processing as pr
-import downloader as dn
+#import processing as pr
+#import downloader as dn
+from data.downloader import download_cifar10
+from data.processing import transformations,data_loader 
 
 def cifar10_classes():
     classes = ('plane', 'car', 'bird', 'cat',
@@ -27,14 +29,14 @@ def cifar10_dataset(batch_size, cuda, num_workers, train=True, augmentation=Fals
 
     # Define data transformations
     if train:
-        transforms = pr.transformations(
+        transforms = transformations(
             augmentation, rotation
         )
     else:
-        transforms = pr.transformations()
+        transforms = transformations()
 
     # Download training and validation dataset
-    data = dn.download_cifar10(train=train, transform=transforms)
+    data = download_cifar10(train=train, transform=transforms)
 
     # create and return dataloader
-    return dn.data_loader(data, batch_size, num_workers, cuda)
+    return data_loader(data, batch_size, num_workers, cuda)
