@@ -45,19 +45,14 @@ class Net(nn.Module):
             nn.ReLU(),
             norm1,
             nn.Dropout(dropout_rate),
-            #nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 32x32x32 | Output: 32x32x64 | RF: 5x5
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
+           
             nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
             nn.ReLU(),
             norm2,
-            #nn.BatchNorm2d(64),
             nn.Dropout(dropout_rate)
         )
 
         self.transblock1 = nn.Sequential(
-            #nn.MaxPool2d(2, 2),  # Input: 32x32x64 | Output: 16x16x64 | RF: 6x6
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=,stride=2),
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
             nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1)  # Input: 16x16x64 | Output: 16x16x32 | RF: 6x6
         )
 
@@ -65,11 +60,8 @@ class Net(nn.Module):
             nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 16x16x32 | Output: 16x16x32 | RF: 10x10
             nn.ReLU(),
             norm3,
-            #nn.BatchNorm2d(32),
             nn.Dropout(dropout_rate),
 
-            #nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 16x16x32 | Output: 16x16x64 | RF: 14x14
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
             nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
             nn.ReLU(),
             norm4,
@@ -78,9 +70,6 @@ class Net(nn.Module):
         )
 
         self.transblock2 = nn.Sequential(
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
-            #nn.MaxPool2d(2, 2),  # Input: 16x16x64 | Output: 8x8x64 | RF: 16x16
             nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1)  # Input: 8x8x64 | Output: 8x8x32 | RF: 16x16
         )
 
@@ -88,7 +77,6 @@ class Net(nn.Module):
             nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, padding=1),  # Input: 8x8x32 | Output: 8x8x32 | RF: 24x24
             nn.ReLU(),
             norm5,
-            #nn.BatchNorm2d(32),
             nn.Dropout(dropout_rate),
 
             # Depthwise separable convolution
@@ -96,13 +84,10 @@ class Net(nn.Module):
             nn.Conv2d(in_channels=32, out_channels=64, kernel_size=1),  # Input: 8x8x32 | Output: 8x8x64 | RF: 32x32
             nn.ReLU(),
             norm6,
-            #nn.BatchNorm2d(64),
             nn.Dropout(dropout_rate)
         )
 
         self.transblock3 = nn.Sequential(
-            #nn.MaxPool2d(2, 2),  # Input: 8x8x64 | Output: 4x4x64 | RF: 36x36
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
             nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
             nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1)  # Input: 4x4x64 | Output: 4x4x32 | RF: 36x36
         )
@@ -111,14 +96,12 @@ class Net(nn.Module):
             nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, padding=1),  # Input: 4x4x32 | Output: 4x4x32 | RF: 52x52
             nn.ReLU(),
             norm7,
-            #nn.BatchNorm2d(32),
             nn.Dropout(dropout_rate),
 
             # Dilated convolution
             nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1, dilation=2),  # Input: 4x4x32 | Output: 4x4x64 | RF: 84x84
             nn.ReLU(),
             norm8,
-            #nn.BatchNorm2d(64),
             nn.Dropout(dropout_rate)
         )
 
@@ -126,10 +109,7 @@ class Net(nn.Module):
             nn.AdaptiveAvgPool2d(1)
         )  # Input: 4x4x64 | Output: 1x1x64 | RF: 108x108
 
-        # self.fc = nn.Sequential(
-            # nn.Linear(64, 10)
-        # )
-
+        
         self.convblock8 = nn.Sequential(
             nn.Conv2d(in_channels=64, out_channels=10, kernel_size=(1, 1), padding=0, bias=False),
         )
