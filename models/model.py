@@ -1,6 +1,6 @@
+import torch.nn.functional as F
 import torch.nn as nn
 import torch.nn.functional as F
-
 class Net(nn.Module):
 
     def __init__(self, dropout_rate,normalizationMode):
@@ -41,32 +41,34 @@ class Net(nn.Module):
            
 
         self.convblock1 = nn.Sequential(
-            nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, padding=1),  # Input: 32x32x3 | Output: 32x32x32 | RF: 3x3
+            nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, padding=1),  # Input: 32x32x3 | Output: 32x32x32 | RF: 3x3
             nn.ReLU(),
-            norm1,
+            nn.BatchNorm2d(64),
             nn.Dropout(dropout_rate),
-            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 32x32x32 | Output: 32x32x64 | RF: 5x5
+            #nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 32x32x32 | Output: 32x32x64 | RF: 5x5
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
             nn.ReLU(),
-            norm2,
+            nn.BatchNorm2d(64),
             #nn.BatchNorm2d(64),
             nn.Dropout(dropout_rate)
         )
 
         self.transblock1 = nn.Sequential(
-            nn.MaxPool2d(2, 2),  # Input: 32x32x64 | Output: 16x16x64 | RF: 6x6
+            #nn.MaxPool2d(2, 2),  # Input: 32x32x64 | Output: 16x16x64 | RF: 6x6
             #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=,stride=2),
             #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
             nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1)  # Input: 16x16x64 | Output: 16x16x32 | RF: 6x6
         )
 
         self.convblock2 = nn.Sequential(
-            nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, padding=1),  # Input: 16x16x32 | Output: 16x16x32 | RF: 10x10
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 16x16x32 | Output: 16x16x32 | RF: 10x10
             nn.ReLU(),
-            norm3,
+            nn.BatchNorm2d(64),
             #nn.BatchNorm2d(32),
             nn.Dropout(dropout_rate),
 
-            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 16x16x32 | Output: 16x16x64 | RF: 14x14
+            #nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=1),  # Input: 16x16x32 | Output: 16x16x64 | RF: 14x14
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
             nn.ReLU(),
             norm4,
             #nn.BatchNorm2d(64),
@@ -76,7 +78,7 @@ class Net(nn.Module):
         self.transblock2 = nn.Sequential(
             #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
             #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
-            nn.MaxPool2d(2, 2),  # Input: 16x16x64 | Output: 8x8x64 | RF: 16x16
+            #nn.MaxPool2d(2, 2),  # Input: 16x16x64 | Output: 8x8x64 | RF: 16x16
             nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1)  # Input: 8x8x64 | Output: 8x8x32 | RF: 16x16
         )
 
@@ -97,8 +99,8 @@ class Net(nn.Module):
         )
 
         self.transblock3 = nn.Sequential(
-            nn.MaxPool2d(2, 2),  # Input: 8x8x64 | Output: 4x4x64 | RF: 36x36
-            #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
+            #nn.MaxPool2d(2, 2),  # Input: 8x8x64 | Output: 4x4x64 | RF: 36x36
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3,stride=2),
             #nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding=1, dilation=2),
             nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1)  # Input: 4x4x64 | Output: 4x4x32 | RF: 36x36
         )
