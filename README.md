@@ -173,7 +173,7 @@ I ran the training for 100 epochs:
 
 ![alt text](images/accuracy_model1.png "Title")
 
-The maximum accuracy is about 86.5%. The required 85% accuracy was achieved after 65th epoch
+The maximum test accuracy is about 86.5%. The required test 85% accuracy was achieved after 65th epoch
 
 
 * However with Model2 (maxpool replaced with Dialted convolution)
@@ -183,8 +183,10 @@ The maximum accuracy is about 86.5%. The required 85% accuracy was achieved afte
 
 ![alt text](images/accuracy_model2.png "Title")
 
-The maximum accuracy is about 88.2% and was consistently above 85% after the 35th epoch
+The maximum test accuracy is about 88.2% and was consistently above test 85% after the 35th epoch
 
+
+Note: In both the models the test accuracy was more than the training accuracy, which is the result of the image augmentations as the training has become more tough
 
 
 ## Misclassification & Class accuracy
